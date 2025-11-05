@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E35078A22EBAEBA500DFA22C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E35078A12EBAEBA500DFA22C /* FirebaseFirestore */; };
+		E35078A42EBAEBA900DFA22C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E35078A32EBAEBA900DFA22C /* FirebaseAuth */; };
+		E35078A62EBAEBAE00DFA22C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E35078A52EBAEBAE00DFA22C /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E35078302EB404D000DFA22C /* TwittClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwittClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35078A22EBAEBA500DFA22C /* FirebaseFirestore in Frameworks */,
+				E35078A42EBAEBA900DFA22C /* FirebaseAuth in Frameworks */,
+				E35078A62EBAEBAE00DFA22C /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				E35078322EB404D000DFA22C /* TwittClone */,
+				E35078A02EBAEBA500DFA22C /* Frameworks */,
 				E35078312EB404D000DFA22C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +53,13 @@
 				E35078302EB404D000DFA22C /* TwittClone.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E35078A02EBAEBA500DFA22C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +82,9 @@
 			);
 			name = TwittClone;
 			packageProductDependencies = (
+				E35078A12EBAEBA500DFA22C /* FirebaseFirestore */,
+				E35078A32EBAEBA900DFA22C /* FirebaseAuth */,
+				E35078A52EBAEBAE00DFA22C /* FirebaseStorage */,
 			);
 			productName = TwittClone;
 			productReference = E35078302EB404D000DFA22C /* TwittClone.app */;
@@ -82,6 +102,7 @@
 				TargetAttributes = {
 					E350782F2EB404D000DFA22C = {
 						CreatedOnToolsVersion = 26.0.1;
+						LastSwiftMigration = 2600;
 					};
 				};
 			};
@@ -94,6 +115,9 @@
 			);
 			mainGroup = E35078272EB404D000DFA22C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E35078312EB404D000DFA22C /* Products */;
 			projectDirPath = "";
@@ -185,7 +209,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -242,6 +268,8 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -251,6 +279,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 72SM725XP3;
@@ -272,6 +302,10 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -283,6 +317,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 72SM725XP3;
@@ -304,6 +340,9 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -332,6 +371,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E35078A12EBAEBA500DFA22C /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		E35078A32EBAEBA900DFA22C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E35078A52EBAEBAE00DFA22C /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E35078282EB404D000DFA22C /* Project object */;
 }
