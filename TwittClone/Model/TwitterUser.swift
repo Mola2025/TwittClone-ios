@@ -10,12 +10,15 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct TwitterUser: Codable, Identifiable{
+    
     @DocumentID var id: String?
     let email: String
-    var Fullname: String
-    var Username: String
-    var Bio: String
-    var ProfileImageURL: String?
+    var fullname: String
+    var username: String
+    var bio: String?
+    var profileImageURL: String?
+    var followers: Int
+    var following: Int
     
     // Constructor
     init(
@@ -23,15 +26,17 @@ struct TwitterUser: Codable, Identifiable{
         email: String,
         Fullname: String,
         Username: String,
-        Bio: String,
+        Bio: String? = nil,
         ProfileImageURL: String? = nil
     ) {
         self.id = id
         self.email = email
-        self.Fullname = Fullname
-        self.Username = Username
-        self.Bio = Bio
-        self.ProfileImageURL = ProfileImageURL
+        self.fullname = Fullname
+        self.username = Username
+        self.bio = Bio
+        self.profileImageURL = ProfileImageURL
+        self.followers = 0
+        self.following = 0
     }
     
 }
