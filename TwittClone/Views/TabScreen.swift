@@ -2,7 +2,7 @@
 //  TabScreen.swift
 //  LinkedIdApp
 //
-//  Created by Jimena Marin on 2025-10-02.
+//  Created by David Molano on 2025-11-05.
 //
 
 import SwiftUI
@@ -15,28 +15,22 @@ struct TabScreen: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
+            CreateTweetView()
+                .tabItem{
+                    Image(systemName: "plus.app.fill")
+                    Text("Create Tweet")
+                }
+            
+            SearchUsersView()
+                .tabItem{
+                    Image(systemName: "magnifyingglass")
+                    Text("Notifications")
+                }
             ProfileView()
                 .tabItem{
                     Image(systemName: "person.2.fill")
                     Text("Profile")
                 }
-//            
-//            PostView()
-//                .tabItem{
-//                    Image(systemName: "plus.app.fill")
-//                    Text("Post")
-//                }
-//            
-//            NotificationListView(notifications: sampleNotifications)
-//                            .tabItem{
-//                                Image(systemName: "bell.fill")
-//                                Text("Notifications")
-//                }
-//            JobView()
-//                .tabItem{
-//                    Image(systemName: "briefcase.fill")
-//                    Text("Jobs")
-//                }
             
         }
     }
