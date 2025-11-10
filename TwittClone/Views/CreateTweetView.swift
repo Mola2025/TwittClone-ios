@@ -165,21 +165,21 @@ struct CreateTweetView: View {
         isPosting = true
         errorMessage = nil
         
-//        tweetManager.createTweet(content: tweetText) { result in
-//            DispatchQueue.main.async {
-//                isPosting = false
-//                
-//                switch result {
-//                case .success(let message):
-//                    print("Tweet Published: \(message)")
-//                    
-//                    
-//                case .failure(let error):
-//                    errorMessage = "Error: \(error.localizedDescription)"
-//                    print("Error in posting twwet: \(error.localizedDescription)")
-//                }
-//            }
-//        }
+        tweetManager.createTweet(content: tweetText) { result in
+            DispatchQueue.main.async {
+                isPosting = false
+                
+                switch result {
+                case .success(let message):
+                    print("Tweet Published: \(message)")
+                    
+                    
+                case .failure(let error):
+                    errorMessage = "Error: \(error.localizedDescription)"
+                    print("Error in posting twwet: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }
 

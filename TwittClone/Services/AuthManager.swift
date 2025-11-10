@@ -183,7 +183,7 @@ class AuthManager: ObservableObject {
         }
     }
 
-    // UploadProfileImage Method (This method allows me to insert and savean image in the firestore for the UserPictureProfile)
+    // UploadProfileImage Method (This method allows me to insert and save an image in the firestore storage for the UserPictureProfile)
 
     private func uploadProfileImage(
         userId: String,
@@ -208,14 +208,22 @@ class AuthManager: ObservableObject {
 
         profileImageRef.putData(imageData, metadata: metadata) { _, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(SimpleError(
+                    "Error uploading the image: \(error.localizedDescription)"
+                )))
                 return
             }
         }
 
         profileImageRef.downloadURL { (url, error) in
             if let error = error {
-                completion(.failure(error))
+                completion(
+                    .failure(
+                        SimpleError(
+                            "Error getting download the URL: \(error.localizedDescription)"
+                        )
+                    )
+                )
                 return
             } else if let url = url {
                 completion(.success(url.absoluteString))
