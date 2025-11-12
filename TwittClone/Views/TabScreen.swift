@@ -24,7 +24,7 @@ struct TabScreen: View {
             SearchUsersView()
                 .tabItem{
                     Image(systemName: "magnifyingglass")
-                    Text("Notifications")
+                    Text("Search")
                 }
             ProfileView()
                 .tabItem{

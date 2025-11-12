@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import Foundation
+import UIKit
 
 class TweetManager: ObservableObject {
     @Published var tweets: [TweetModel] = []
@@ -115,7 +116,7 @@ class TweetManager: ObservableObject {
             let imageData = image.jpegData(compressionQuality: 0.5),
             let currentUser = Auth.auth().currentUser
         else {
-            completion(.success(""))
+            completion(.failure(SimpleError("User not authenticated")))
             return
         }
 
@@ -137,22 +138,24 @@ class TweetManager: ObservableObject {
                 )
                 return
             }
-        }
-
-        storageRef.downloadURL { (url, error) in
-            if let error = error {
-                completion(
-                    .failure(
-                        SimpleError(
-                            "Error getting download the URL: \(error.localizedDescription)"
+            
+            storageRef.downloadURL { (url, error) in
+                if let error = error {
+                    completion(
+                        .failure(
+                            SimpleError(
+                                "Error getting download the URL: \(error.localizedDescription)"
+                            )
                         )
                     )
-                )
-                return
-            } else if let url = url {
-                completion(.success(url.absoluteString))
+                    return
+                } else if let url = url {
+                    completion(.success(url.absoluteString))
+                }
             }
         }
+
+
     }
 
     // saveTweettoFirestore to save the tweet in the collection of tweets in firestore
