@@ -12,6 +12,7 @@
 		E35078A62EBAEBAE00DFA22C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E35078A52EBAEBAE00DFA22C /* FirebaseStorage */; };
 		E39F45BF2EC3E293007E7DAA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = E39F45BE2EC3E293007E7DAA /* SDWebImage */; };
 		E39F45C12EC3E293007E7DAA /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E39F45C02EC3E293007E7DAA /* SDWebImageMapKit */; };
+		E39F46442EC66473007E7DAA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E39F46432EC66473007E7DAA /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E39F46442EC66473007E7DAA /* SDWebImageSwiftUI in Frameworks */,
 				E35078A22EBAEBA500DFA22C /* FirebaseFirestore in Frameworks */,
 				E39F45C12EC3E293007E7DAA /* SDWebImageMapKit in Frameworks */,
 				E35078A42EBAEBA900DFA22C /* FirebaseAuth in Frameworks */,
@@ -91,6 +93,7 @@
 				E35078A52EBAEBAE00DFA22C /* FirebaseStorage */,
 				E39F45BE2EC3E293007E7DAA /* SDWebImage */,
 				E39F45C02EC3E293007E7DAA /* SDWebImageMapKit */,
+				E39F46432EC66473007E7DAA /* SDWebImageSwiftUI */,
 			);
 			productName = TwittClone;
 			productReference = E35078302EB404D000DFA22C /* TwittClone.app */;
@@ -124,6 +127,7 @@
 			packageReferences = (
 				E350789F2EBAEB1F00DFA22C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E39F45BD2EC3E293007E7DAA /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				E39F46422EC66473007E7DAA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E35078312EB404D000DFA22C /* Products */;
@@ -396,6 +400,14 @@
 				minimumVersion = 5.21.3;
 			};
 		};
+		E39F46422EC66473007E7DAA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -423,6 +435,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E39F45BD2EC3E293007E7DAA /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		E39F46432EC66473007E7DAA /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E39F46422EC66473007E7DAA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -31,16 +31,18 @@ class TweetManager: ObservableObject {
             completion(.failure(SimpleError("User not authenticated")))
             return
         }
-        
-        getUserData(userId: currentUser.uid){
-            result in switch result {
+
+        getUserData(userId: currentUser.uid) {
+            result in
+            switch result {
             case .success(let twitterUser):
                 let username = twitterUser?.username ?? "Anonymous"
-                
+
                 // If there is an image upload it first and after save it
                 if let image = image {
-                    self.uploadTweetImage(image: image){
-                        result in switch result {
+                    self.uploadTweetImage(image: image) {
+                        result in
+                        switch result {
                         case .success(let imageUrl):
                             self.saveTweettoFirestore(
                                 userId: currentUser.uid,
@@ -60,7 +62,8 @@ class TweetManager: ObservableObject {
                         username: username,
                         content: content,
                         imageURL: nil,
-                        completion: completion)
+                        completion: completion
+                    )
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -138,7 +141,7 @@ class TweetManager: ObservableObject {
                 )
                 return
             }
-            
+
             storageRef.downloadURL { (url, error) in
                 if let error = error {
                     completion(
@@ -154,7 +157,6 @@ class TweetManager: ObservableObject {
                 }
             }
         }
-
 
     }
 
@@ -192,7 +194,43 @@ class TweetManager: ObservableObject {
 
         }
     }
-    
-    
 
+    func fetchTweets(
+        completion: @escaping (Result<[TweetModel], Error>) -> Void
+    ) {
+        db.collection("tweets").order(by: "timestamp", descending: true)
+            .addSnapshotListener { snapshot, error in // El listener permite que siempre se vean reflejados los cambios en tiempo real
+                if let error = error {
+                    completion(
+                        .failure(
+                            SimpleError(
+                                "Error fetching tweets: \(error.localizedDescription)"
+                            )
+                        )
+                    )
+                    return
+                }
+
+                do {
+                    let tweets =
+                        try snapshot?.documents.compactMap {
+                            try $0.data(as: TweetModel.self)
+                        } ?? []
+                    DispatchQueue.main.async {
+                        self.tweets = tweets
+                    }
+                    completion(.success(tweets))
+                } catch {
+                    completion(
+                        .failure(
+                            SimpleError(
+                                "Error decoding tweets: \(error.localizedDescription)"
+                            )
+                        )
+                    )
+                }
+            }
+
+    }
 }
+

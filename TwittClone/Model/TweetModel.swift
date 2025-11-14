@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 
-struct TweetModel: Identifiable{
+struct TweetModel: Codable ,Identifiable{
     @DocumentID var id: String?
     let userId: String
     let username: String
