@@ -14,32 +14,30 @@ struct HomeScreen: View {
 
     var body: some View {
         ScrollView {
-            
-            VStack{
+
+            VStack {
                 Rectangle().fill(.primary).frame(height: 2)
-                
+
                 // Header
                 Text("Your Feed")
                     .font(.largeTitle)
                     .foregroundColor(.primary)
                     .fontWeight(.bold)
-                
+
                 Rectangle().fill(.primary).frame(height: 2)
             }
-            
+
             Spacer(minLength: 20)
-            
+
             VStack(spacing: 16) {
                 ForEach(tweets) { tweet in
                     if let imageURL = tweet.imageURL, !imageURL.isEmpty {
                         TweetCardWithImageView(
-                            tweet: tweet,
-                            userProfileImage: nil
+                            tweet: tweet
                         )
                     } else {
                         TweetCardWithoutImageView(
-                            tweet: tweet,
-                            userProfileImage: nil
+                            tweet: tweet
                         )
                     }
                 }

@@ -69,7 +69,7 @@ struct ProfileView: View {
                         .padding(.horizontal)
                     }
                     .padding(.top, 4)
-                    
+
                     Divider()
                 }
 
@@ -77,16 +77,14 @@ struct ProfileView: View {
 
                 HStack(spacing: 12) {
 
-                    Button {
-                        print("Editar Perfil")
-                    } label: {
+                    NavigationLink(destination: EditProfileView()) {
                         Text("Edit Profile")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue.opacity(0.8))
-                            .foregroundColor(.white)
-                            .cornerRadius(30)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(30)
 
                     Button(role: .destructive) {
                         singOut()
@@ -110,25 +108,17 @@ struct ProfileView: View {
                     ForEach(userTweets) { tweet in
                         if let imageURL = tweet.imageURL, !imageURL.isEmpty {
                             TweetCardWithImageView(
-                                tweet: tweet,
-                                userProfileImage: nil
+                                tweet: tweet
                             )
                         } else {
                             TweetCardWithoutImageView(
-                                tweet: tweet,
-                                userProfileImage: nil
+                                tweet: tweet
                             )
                         }
                     }
                 }
                 .padding(.horizontal)
 
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .font(.caption)
-                        .padding()
-                }
             }
         }.onAppear {
             loadUser()

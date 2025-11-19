@@ -5,16 +5,17 @@
 //  Created by David Molano on 2025-11-13.
 //
 
-import SwiftUI
+import FirebaseFirestore
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct TweetCardWithoutImageView: View {
     let tweet: TweetModel
-    let userProfileImage: String?
-    
+    @State private var userProfileImage: String?
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            
+
             HStack(spacing: 12) {
                 // Profile Picture
                 WebImage(url: URL(string: userProfileImage ?? ""))
@@ -24,25 +25,29 @@ struct TweetCardWithoutImageView: View {
                     .scaledToFill()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
-                
+                    .onAppear {
+                        loadUserData()
+                    }
+
                 // Username
                 Text(tweet.username)
                     .font(.headline)
                     .foregroundColor(.primary)
-                
+
                 Spacer()
             }
-            
+
             // Tweet Content
             Text(tweet.content)
                 .font(.body)
                 .foregroundColor(.primary)
-            
-            
+
             // Date Posted
-            Text(tweet.timestamp.formatted(date: .abbreviated, time: .shortened))
-                .font(.caption)
-                .foregroundColor(.gray)
+            Text(
+                tweet.timestamp.formatted(date: .abbreviated, time: .shortened)
+            )
+            .font(.caption)
+            .foregroundColor(.gray)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -53,6 +58,16 @@ struct TweetCardWithoutImageView: View {
         )
         .shadow(radius: 2)
     }
+    private func loadUserData() {
+        let db = Firestore.firestore()
+        db.collection("users").document(tweet.userId).getDocument {
+            snapshot,
+            error in
+            if let user = try? snapshot?.data(as: TwitterUser.self) {
+                self.userProfileImage = user.profileImageURL
+            }
+        }
+    }
 }
 #Preview {
     TweetCardWithoutImageView(
@@ -62,7 +77,6 @@ struct TweetCardWithoutImageView: View {
             username: "previewUser",
             content: "Tweet sin imagen.",
             timestamp: Date()
-        ),
-        userProfileImage: "https://picsum.photos/50"
+        )
     )
 }
