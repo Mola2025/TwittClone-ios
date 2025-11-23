@@ -20,6 +20,10 @@ struct TwitterUser: Codable, Identifiable{
     var followers: Int
     var following: Int
     
+    // Array for saving the ids of the users im following
+    
+    var followingUserIds: [String]? = []
+    
     // Constructor
     init(
         id: String? = nil,
@@ -37,6 +41,7 @@ struct TwitterUser: Codable, Identifiable{
         self.profileImageURL = ProfileImageURL
         self.followers = 0
         self.following = 0
+        self.followingUserIds = []
     }
     
 }

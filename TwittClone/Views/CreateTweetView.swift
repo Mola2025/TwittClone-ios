@@ -19,146 +19,163 @@ struct CreateTweetView: View {
     @State var data: UIImage?
     @State var selectedItem: [PhotosPickerItem] = []
 
+    // For the Toast
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var toastIsError = false
+
     var body: some View {
-        VStack(spacing: 20) {
-
-            // Header
-            HStack {
-                NavigationLink(
-                    destination: TabScreen(),
-                    isActive: $NavigateToHome
-                ) {
-                    EmptyView()
-                }
-
-                Button("Cancel") {
-                    NavigateToHome = true
-                }
-                .foregroundColor(.blue)
-                .frame(maxWidth: 80)
-                .frame(maxHeight: 40)
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(10)
-
-                Spacer()
-
-                Text("New Tweet")
-                    .font(.headline)
-                    .fontWeight(.bold)
-
-                Spacer()
-                Spacer()
-
-            }
-            .padding(.horizontal)
-            .padding(.top)
-
-            // Tweet Text
-            VStack(alignment: .leading, spacing: 10) {
-
-                TextEditor(text: $tweetText)
-                    .frame(height: 150)
-                    .padding(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-                    .background(Color(.systemBackground))
-
-                //                if tweetText.isEmpty{
-                //                    Text("Write your tweet here...")
-                //                        .foregroundColor(.gray)
-                //                        .padding(.horizontal, 12)
-                //                        .padding(.vertical, 16)
-                //                }
-
-                // Character count
+        ZStack{
+            VStack(spacing: 20) {
+                
+                // Header
                 HStack {
+                    NavigationLink(
+                        destination: TabScreen(),
+                        isActive: $NavigateToHome
+                    ) {
+                        EmptyView()
+                    }
+                    
+                    Button("Cancel") {
+                        NavigateToHome = true
+                    }
+                    .foregroundColor(.blue)
+                    .frame(maxWidth: 80)
+                    .frame(maxHeight: 40)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    
                     Spacer()
-                    Text("\(tweetText.count)/280")
-                        .font(.caption)
-                        .foregroundColor(tweetText.count > 280 ? .red : .gray)
+                    
+                    Text("New Tweet")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    Spacer()
+                    
                 }
-            }
-            .padding(.horizontal)
-
-            // Image
-            PhotosPicker(
-                selection: $selectedItem,
-                maxSelectionCount: 1,
-                matching: .images
-            ) {
-                HStack {
-                    Image(systemName: "photo.on.rectangle.angled")
-                    Text("Attach image")
-                }
-                .foregroundColor(.black)
-                .padding(8)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
-            }
-            .onChange(of: selectedItem) { newValue in
-                guard let item = newValue.first else { return }
-                item.loadTransferable(type: Data.self) { result in
-                    switch result {
-                    case .success(let data):
-                        if let data = data, let uiImage = UIImage(data: data){
-                            self.data = uiImage
-                        }
-                    case .failure(let failure):
-                        print("Error: \(failure.localizedDescription)")
+                .padding(.horizontal)
+                .padding(.top)
+                
+                // Tweet Text
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    TextEditor(text: $tweetText)
+                        .frame(height: 150)
+                        .padding(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .background(Color(.systemBackground))
+                    
+                    //                if tweetText.isEmpty{
+                    //                    Text("Write your tweet here...")
+                    //                        .foregroundColor(.gray)
+                    //                        .padding(.horizontal, 12)
+                    //                        .padding(.vertical, 16)
+                    //                }
+                    
+                    // Character count
+                    HStack {
+                        Spacer()
+                        Text("\(tweetText.count)/280")
+                            .font(.caption)
+                            .foregroundColor(tweetText.count > 280 ? .red : .gray)
                     }
                 }
-            }
-            .padding(.horizontal)
-
-            // Preview of selected image
-            if let image = data{
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 250)
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-            }
-
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .font(.subheadline)
-                    .padding(.horizontal)
-            }
-
-            Spacer()
-
-            // Submit And Cancel buttons
-            HStack(spacing: 20) {
-                // Clear button
-                Button("Clear") {
-                    clearTweet()
+                .padding(.horizontal)
+                
+                // Image
+                PhotosPicker(
+                    selection: $selectedItem,
+                    maxSelectionCount: 1,
+                    matching: .images
+                ) {
+                    HStack {
+                        Image(systemName: "photo.on.rectangle.angled")
+                        Text("Attach image")
+                    }
+                    .foregroundColor(.black)
+                    .padding(8)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .foregroundColor(.primary)
-                .cornerRadius(10)
-                .disabled(tweetText.isEmpty || isPosting)
-
-                // Post tweet button
-                Button("Create Tweet") {
-                    postTweet()
+                .onChange(of: selectedItem) { newValue in
+                    guard let item = newValue.first else { return }
+                    item.loadTransferable(type: Data.self) { result in
+                        switch result {
+                        case .success(let data):
+                            if let data = data, let uiImage = UIImage(data: data) {
+                                self.data = uiImage
+                            }
+                        case .failure(let failure):
+                            print("Error: \(failure.localizedDescription)")
+                        }
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    disablePostButton ? Color.blue.opacity(0.3) : Color.blue
-                )
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .disabled(disablePostButton)
+                .padding(.horizontal)
+                
+                // Preview of selected image
+                if let image = data {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 250)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                }
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.subheadline)
+                        .padding(.horizontal)
+                }
+                
+                Spacer()
+                
+                // Submit And Cancel buttons
+                HStack(spacing: 20) {
+                    // Clear button
+                    Button("Clear") {
+                        clearTweet()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(.primary)
+                    .cornerRadius(10)
+                    .disabled(tweetText.isEmpty || isPosting)
+                    
+                    // Post tweet button
+                    Button("Create Tweet") {
+                        postTweet()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(
+                        disablePostButton ? Color.blue.opacity(0.3) : Color.blue
+                    )
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .disabled(disablePostButton)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 20)
             }
-            .padding(.horizontal)
-            .padding(.bottom, 20)
+            // Toast
+            VStack {
+                Spacer()
+                if showToast {
+                    ToastView(message: toastMessage, isError: toastIsError)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.spring(), value: showToast)
+                        .padding(.bottom, 30)
+                }
+            }
         }
     }
 
@@ -195,20 +212,40 @@ struct CreateTweetView: View {
                 isPosting = false
 
                 switch result {
-                case .success(let message):
-                    print("Tweet Published: \(message)")
+                case .success:
+                    showSuccess("Tweet Published")
                     data = nil
                     tweetText = ""
 
                 case .failure(let error):
-                    errorMessage = "Error: \(error.localizedDescription)"
-                    print(
-                        "Error in posting twwet: \(error.localizedDescription)"
-                    )
+                    showError("Error: \(error.localizedDescription)")
                 }
             }
         }
     }
+    
+    // Toast Functions
+
+        private func showSuccess(_ message: String) {
+            toastMessage = message
+            toastIsError = false
+            showToast = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showToast = false
+            }
+        }
+
+        private func showError(_ message: String) {
+            toastMessage = message
+            toastIsError = true
+            showToast = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showToast = false
+            }
+        }
+
 }
 
 #Preview {

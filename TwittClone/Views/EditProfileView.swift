@@ -15,7 +15,7 @@ import SwiftUI
 struct EditProfileView: View {
     @EnvironmentObject var authManager: AuthManager
     @StateObject private var tweetManager = TweetManager()
-    
+
     // This variable is for handling te return to the previous page after making an update to the profile or making an update into the DB
     @Environment(\.dismiss) var dismiss
 
@@ -30,6 +30,11 @@ struct EditProfileView: View {
     // For the image
     @State var data: UIImage?
     @State var selectedItem: [PhotosPickerItem] = []
+
+    // For the Toast
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var toastIsError = false
 
     var body: some View {
         ScrollView {
@@ -182,7 +187,18 @@ struct EditProfileView: View {
                     .cornerRadius(30)
                 }
                 .padding(.horizontal)
-
+            }
+            // Toast
+            VStack {
+                Spacer()
+                if showToast {
+                    ToastView(message: toastMessage, isError: toastIsError)
+                        .transition(
+                            .move(edge: .bottom).combined(with: .opacity)
+                        )
+                        .animation(.spring(), value: showToast)
+                        .padding(.bottom, 30)
+                }
             }
         }.onAppear {
             loadUser()
@@ -196,12 +212,12 @@ struct EditProfileView: View {
             snapshot,
             error in
             if let error = error {
-                self.errorMessage = error.localizedDescription
+                self.showError("Error loading profile: \(error.localizedDescription)")
                 return
             }
 
             do {
-                if let currentUser = try snapshot?.data(as: TwitterUser.self){
+                if let currentUser = try snapshot?.data(as: TwitterUser.self) {
                     self.currentUser = currentUser
 
                     // Fetch the current user info into the textboxes
@@ -210,8 +226,8 @@ struct EditProfileView: View {
                     self.bio = currentUser.bio ?? ""
                 }
             } catch {
-                self.errorMessage =
-                    "Error loading profile: \(error.localizedDescription)"
+                self.showError(
+                    "Error decoding profile")
             }
         }
     }
@@ -239,7 +255,7 @@ struct EditProfileView: View {
             saveUpdates(uid: uid, updates: updates)
             return
         }
-        
+
         // If there is a new image
 
         if let newImage = data {
@@ -261,12 +277,12 @@ struct EditProfileView: View {
             updates
         ) { error in
             if let error = error {
-                self.errorMessage = error.localizedDescription
+                self.showError( "Error updating profile: \(error.localizedDescription)")
             } else {
-                print("PROFILE UPDATED SUCCESSFULLY")
+                self.showSuccess("Profile Updated Successfully")
                 // Update the username and profile picture in all tweets
                 self.updateUserTweets(uid: uid, newUsername: self.username)
-                
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     dismiss()
                 }
@@ -282,7 +298,7 @@ struct EditProfileView: View {
             .whereField("userId", isEqualTo: uid)
             .getDocuments { snapshot, error in
                 if let error = error {
-                    print(
+                    self.showError(
                         "Error fetching user tweets: \(error.localizedDescription)"
                     )
                     return
@@ -304,7 +320,7 @@ struct EditProfileView: View {
 
                 batch.commit { error in
                     if let error = error {
-                        print(
+                        self.showError(
                             "Error updating tweets: \(error.localizedDescription)"
                         )
                     } else {
@@ -331,7 +347,7 @@ struct EditProfileView: View {
 
         storageRef.putData(imageData, metadata: nil) { _, error in
             if let error = error {
-                print("Upload failed: \(error.localizedDescription)")
+                self.showError("Upload failed: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
@@ -346,6 +362,28 @@ struct EditProfileView: View {
             }
         }
     }
+    
+    // Toast Functions
+
+        private func showSuccess(_ message: String) {
+            toastMessage = message
+            toastIsError = false
+            showToast = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showToast = false
+            }
+        }
+
+        private func showError(_ message: String) {
+            toastMessage = message
+            toastIsError = true
+            showToast = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showToast = false
+            }
+        }
 }
 
 #Preview {
